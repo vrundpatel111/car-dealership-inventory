@@ -18,41 +18,53 @@ interface Props {
 }
 
 export const VehicleCard: React.FC<Props> = ({ vehicle, onPurchase, isAdmin, onDelete, onRestock }) => {
+  const inStock = vehicle.quantity > 0;
+
   return (
-    <div className="glass-card p-6 flex flex-col justify-between hover:scale-[1.02] transition-transform duration-300">
+    <div className="card p-6 flex flex-col justify-between">
+      {/* Top */}
       <div>
-        <div className="flex justify-between items-start mb-4">
-          <h3 className="text-xl font-bold text-white">{vehicle.make} {vehicle.model}</h3>
-          <span className="bg-slate-700 text-slate-300 text-xs px-2 py-1 rounded-full uppercase tracking-wider font-semibold">
-            {vehicle.category}
+        <div className="flex justify-between items-start mb-3">
+          <div>
+            <h3 className="text-lg font-bold text-slate-900">{vehicle.make} {vehicle.model}</h3>
+            <span className="badge mt-1">{vehicle.category}</span>
+          </div>
+          <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
+            inStock
+              ? 'bg-green-50 text-green-700 border border-green-200'
+              : 'bg-red-50 text-red-600 border border-red-200'
+          }`}>
+            {inStock ? `${vehicle.quantity} in stock` : 'Out of stock'}
           </span>
         </div>
-        <p className="text-2xl font-bold text-electric mb-2">${vehicle.price.toLocaleString()}</p>
-        <p className={`text-sm mb-6 ${vehicle.quantity > 0 ? 'text-emerald' : 'text-red-400'}`}>
-          {vehicle.quantity > 0 ? `${vehicle.quantity} in stock` : 'Out of stock'}
+
+        <p className="text-2xl font-extrabold text-primary-600 mt-4 mb-1">
+          ${vehicle.price.toLocaleString()}
         </p>
+        <p className="text-xs text-slate-400 mb-5">Manufacturer's Suggested Price</p>
       </div>
 
-      <div className="space-y-3">
-        <button 
+      {/* Actions */}
+      <div className="space-y-2 pt-4 border-t border-slate-100">
+        <button
           onClick={() => onPurchase(vehicle.id)}
-          disabled={vehicle.quantity <= 0}
-          className="w-full bg-electric hover:bg-blue-600 disabled:bg-slate-700 disabled:text-slate-500 disabled:cursor-not-allowed text-white font-medium py-2 rounded-lg transition shadow-lg shadow-blue-500/20"
+          disabled={!inStock}
+          className="btn-primary w-full py-2.5"
         >
-          {vehicle.quantity > 0 ? 'Purchase Vehicle' : 'Sold Out'}
+          {inStock ? 'Purchase Vehicle' : 'Sold Out'}
         </button>
 
         {isAdmin && (
-          <div className="flex gap-2 border-t border-slate-700 pt-3 mt-3">
-            <button 
+          <div className="flex gap-2 pt-1">
+            <button
               onClick={() => onRestock && onRestock(vehicle.id, 5)}
-              className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-medium py-2 rounded-lg transition"
+              className="btn-ghost flex-1"
             >
-              Restock (+5)
+              + Restock
             </button>
-            <button 
+            <button
               onClick={() => onDelete && onDelete(vehicle.id)}
-              className="flex-1 bg-red-900/40 hover:bg-red-800 border border-red-800 text-red-200 font-medium py-2 rounded-lg transition"
+              className="btn-danger flex-1"
             >
               Delete
             </button>

@@ -3,7 +3,25 @@ import * as vehicleService from '../services/vehicle.service';
 
 export const getAll = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const vehicles = await vehicleService.getAllVehicles(req.query);
+    const vehicles = await vehicleService.getAllVehicles();
+    res.status(200).json(vehicles);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const search = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { make, model, category, minPrice, maxPrice } = req.query;
+
+    const vehicles = await vehicleService.searchVehicles({
+      make: make as string | undefined,
+      model: model as string | undefined,
+      category: category as string | undefined,
+      minPrice: minPrice ? Number(minPrice) : undefined,
+      maxPrice: maxPrice ? Number(maxPrice) : undefined,
+    });
+
     res.status(200).json(vehicles);
   } catch (error) {
     next(error);

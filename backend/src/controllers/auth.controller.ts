@@ -16,11 +16,20 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
     }
 
     const user = await authService.registerUser(req.body);
-    res.status(201).json(user);
+
+    // Generate token immediately so the frontend can auto-login after register
+    const token = jwt.sign(
+      { id: user.id, role: user.role },
+      process.env.JWT_SECRET || 'secret',
+      { expiresIn: '1d' }
+    );
+
+    res.status(201).json({ user, token });
   } catch (error) {
     next(error);
   }
 };
+
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
   try {

@@ -18,7 +18,7 @@ const ProtectedRoute = ({ children, requireAdmin = false }: { children: React.Re
 
 function AppRoutes() {
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-slate-50">
       <Navbar />
       <Routes>
         <Route path="/login" element={<Login />} />

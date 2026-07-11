@@ -58,6 +58,35 @@ describe('Vehicle API', () => {
     });
   });
 
+  describe('GET /api/vehicles/search', () => {
+    it('should filter vehicles by make', async () => {
+      const res = await request(app)
+        .get('/api/vehicles/search?make=Toyota')
+        .set('Authorization', `Bearer ${userToken}`);
+
+      expect(res.statusCode).toEqual(200);
+      expect(res.body.every((v: any) => v.make.toLowerCase().includes('toyota'))).toBe(true);
+    });
+
+    it('should filter vehicles by category', async () => {
+      const res = await request(app)
+        .get('/api/vehicles/search?category=Sedan')
+        .set('Authorization', `Bearer ${userToken}`);
+
+      expect(res.statusCode).toEqual(200);
+      expect(res.body.every((v: any) => v.category.toLowerCase().includes('sedan'))).toBe(true);
+    });
+
+    it('should filter vehicles by price range', async () => {
+      const res = await request(app)
+        .get('/api/vehicles/search?minPrice=20000&maxPrice=30000')
+        .set('Authorization', `Bearer ${userToken}`);
+
+      expect(res.statusCode).toEqual(200);
+      expect(res.body.every((v: any) => v.price >= 20000 && v.price <= 30000)).toBe(true);
+    });
+  });
+
   describe('POST /api/vehicles/:id/purchase', () => {
     it('should allow a user to purchase and decrement quantity', async () => {
       const res = await request(app)
