@@ -2,6 +2,9 @@
 
 A full-stack, test-driven web application for managing car dealership inventory, built for the Incubyte technical assessment.
 
+## 🌐 Live Demo
+👉 **[View the Live Application](https://car-dealership-inventory-alpha.vercel.app/)**
+
 ## 🚀 Tech Stack
 - **Frontend**: React, TypeScript, Vite, Tailwind CSS
 - **Backend**: Node.js, Express, TypeScript, Prisma ORM
