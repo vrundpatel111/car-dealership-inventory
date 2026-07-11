@@ -56,10 +56,27 @@ UPDATE "User" SET role = 'ADMIN' WHERE email = 'your-email@example.com';
 Once their role is updated, they will see the **Admin Panel** link in the navbar on their next login.
 
 ## 📸 Screenshots
-*(Insert your screenshots here)*
-- `Dashboard View`
-- `Admin Panel`
-- `Purchase Flow`
+
+### 🔐 Login Page
+> Clean authentication screen with gradient background and card layout.
+
+![Login Page](./screenshots/login.png)
+
+---
+
+### 🏠 Vehicle Inventory Dashboard
+> Browse all vehicles with the 5-filter search panel (Make, Model, Category, Min Price, Max Price). Shows vehicle count and stock status.
+
+![Dashboard](./screenshots/dashboard.png)
+
+---
+
+### 🛡️ Admin Panel
+> Admin-only view showing the Add Vehicle form and Manage Inventory grid with Restock and Delete controls per vehicle.
+
+![Admin Panel](./screenshots/admin.png)
+
+---
 
 ## ✅ Test Report
 The backend was built using strict Test-Driven Development (Red-Green-Refactor).
