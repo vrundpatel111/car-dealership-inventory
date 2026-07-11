@@ -79,19 +79,22 @@ Once their role is updated, they will see the **Admin Panel** link in the navbar
 ---
 
 ## ✅ Test Report
-The backend was built using strict Test-Driven Development (Red-Green-Refactor).
+The backend was built using strict Test-Driven Development (Red-Green-Refactor). All business logic, including authentication and search, was verified by automated tests before moving forward.
 ```bash
 cd backend
 npx jest
 ```
 ```text
-PASS  src/__tests__/auth.test.ts (14.413 s)
-PASS  src/__tests__/vehicle.test.ts (15.696 s)
+> backend@1.0.0 test
+> jest
+
+PASS src/__tests__/auth.test.ts
+PASS src/__tests__/vehicle.test.ts
 
 Test Suites: 2 passed, 2 total
-Tests:       8 passed, 8 total
+Tests:       11 passed, 11 total
 Snapshots:   0 total
-Time:        18.489 s
+Time:        14.662 s
 Ran all test suites.
 ```
 

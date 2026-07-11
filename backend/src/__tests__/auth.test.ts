@@ -19,10 +19,10 @@ describe('Auth API', () => {
         });
       
       expect(res.statusCode).toEqual(201);
-      expect(res.body).toHaveProperty('id');
-      expect(res.body.email).toEqual('test@example.com');
+      expect(res.body.user).toHaveProperty('id');
+      expect(res.body.user.email).toEqual('test@example.com');
       // Ensure password is never returned
-      expect(res.body).not.toHaveProperty('password');
+      expect(res.body.user).not.toHaveProperty('password');
     });
   });
 
