@@ -1,7 +1,10 @@
 import express from 'express';
-import { register } from './controllers/auth.controller';
+import { authRouter } from './routes/auth.routes';
+import { errorHandler } from './middlewares/error.middleware';
 
 export const app = express();
 app.use(express.json());
 
-app.post('/api/auth/register', register);
+app.use('/api/auth', authRouter);
+
+app.use(errorHandler);

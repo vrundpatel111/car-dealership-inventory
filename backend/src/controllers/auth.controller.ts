@@ -1,29 +1,46 @@
-import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcrypt';
+import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+import * as authService from '../services/auth.service';
 
-const prisma = new PrismaClient();
-
-export const register = async (req: Request, res: Response) => {
+export const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, password, name } = req.body;
-    
-    // Hash password before saving
-    const hashedPassword = await bcrypt.hash(password, 10);
-    
-    const user = await prisma.user.create({
-      data: {
-        email,
-        password: hashedPassword,
-        name
-      }
-    });
 
-    // Don't return password
-    const { password: _, ...userWithoutPassword } = user;
+    // Manual validation
+    if (!email || !password || !name) {
+      return res.status(400).json({ error: { message: 'Email, password, and name are required' } });
+    }
     
-    res.status(201).json(userWithoutPassword);
+    if (password.length < 6) {
+      return res.status(400).json({ error: { message: 'Password must be at least 6 characters' } });
+    }
+
+    const user = await authService.registerUser(req.body);
+    res.status(201).json(user);
   } catch (error) {
-    res.status(400).json({ error: 'Registration failed' });
+    next(error);
+  }
+};
+
+export const login = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { email, password } = req.body;
+
+    // Manual validation
+    if (!email || !password) {
+      return res.status(400).json({ error: { message: 'Email and password are required' } });
+    }
+
+    const user = await authService.loginUser(req.body);
+    
+    const token = jwt.sign(
+      { id: user.id, role: user.role },
+      process.env.JWT_SECRET || 'secret',
+      { expiresIn: '1d' }
+    );
+
+    res.status(200).json({ user, token });
+  } catch (error) {
+    next(error);
   }
 };

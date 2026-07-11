@@ -8,18 +8,18 @@ generator client {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  email    String   @unique
+  id       Int    @id @default(autoincrement())
+  email    String @unique
   name     String
   password String
-  role     String   @default("USER")
+  role     String @default("USER")
 }
 
 model Vehicle {
-  id       Int      @id @default(autoincrement())
+  id       Int    @id @default(autoincrement())
   make     String
   model    String
   category String
   price    Float
-  quantity Int      @default(0)
+  quantity Int    @default(0)
 }
